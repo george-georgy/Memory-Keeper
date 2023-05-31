@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/my_nav"
+    app:startDestination="@id/memoriesListFragment">
+
+    <fragment
+        android:id="@+id/memoriesListFragment"
+        android:name="com.george_georgy.memorykeeper.ui.MemoriesListFragment"
+        android:label="NotesListFragment"
+        tools:layout="@layout/fragment_memories_list">
+        <action
+            android:id="@+id/action_notesListFragment_to_noteFragment"
+            app:destination="@id/memoryFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/memoryFragment"
+        android:name="com.george_georgy.memorykeeper.ui.MemoryAddFragment"
+        android:label="NoteFragment"
+        tools:layout="@layout/fragment_memory">
+
+        <argument
+            android:name="memory"
+            app:argType="com.george_georgy.memorykeeper.model.Memory"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
+</navigation>
