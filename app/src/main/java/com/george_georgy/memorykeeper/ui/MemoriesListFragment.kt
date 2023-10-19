@@ -1,7 +1,6 @@
 package com.george_georgy.memorykeeper.ui
 
 import android.os.Bundle
-import android.provider.ContactsContract
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,9 +16,10 @@ import com.george_georgy.memorykeeper.ui.viewModel.MemoryViewModel
 
 class MemoriesListFragment : Fragment(R.layout.fragment_memories_list)  {
 
-    private lateinit var binding: FragmentMemoriesListBinding
-    private lateinit var memoryAdapter: MemoryListAdapter
+    private var _binding: FragmentMemoriesListBinding? = null
+    private var memoryAdapter: MemoryListAdapter? = null
     private lateinit var memoryViewModel: MemoryViewModel
+    private val binding get() = _binding!!
 
 
 
@@ -28,7 +28,7 @@ class MemoriesListFragment : Fragment(R.layout.fragment_memories_list)  {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentMemoriesListBinding.inflate(inflater)
+        _binding = FragmentMemoriesListBinding.inflate(inflater)
         return binding.root
     }
 
@@ -49,7 +49,7 @@ class MemoriesListFragment : Fragment(R.layout.fragment_memories_list)  {
             findNavController().navigate(R.id.action_notesListFragment_to_noteFragment)
         }
 
-        memoryAdapter.onClick = { memory->
+        memoryAdapter?.onClick = { memory->
             val bundle = Bundle().apply {
                 putParcelable("memory",memory)
             }
@@ -74,7 +74,7 @@ class MemoriesListFragment : Fragment(R.layout.fragment_memories_list)  {
         memoryViewModel.memories.observe(
             viewLifecycleOwner
         ) { list: List<Memory> ->
-            memoryAdapter.differ.submitList(list)
+            memoryAdapter?.differ?.submitList(list)
             updateUI(list)
         }
 
@@ -85,7 +85,7 @@ class MemoriesListFragment : Fragment(R.layout.fragment_memories_list)  {
         memoryViewModel.searchMemories(query).observe(
             viewLifecycleOwner
         ) { list ->
-            memoryAdapter.differ.submitList(list)
+            memoryAdapter?.differ?.submitList(list)
         }
     }
 
@@ -98,6 +98,13 @@ class MemoriesListFragment : Fragment(R.layout.fragment_memories_list)  {
             binding.cardView.visibility = View.VISIBLE
             binding.rvNotes.visibility = View.GONE
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+         memoryAdapter = null
+
     }
 
 

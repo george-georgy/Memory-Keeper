@@ -14,9 +14,10 @@ import com.george_georgy.memorykeeper.model.Memory
 
 
 class MemoryAddFragment : Fragment() {
-    private lateinit var binding: FragmentMemoryBinding
+    private var _binding: FragmentMemoryBinding? = null
     private val args by navArgs<MemoryAddFragmentArgs>()
     private lateinit var viewmodel: MemoryViewModel
+    private val binding get() = _binding!!
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,7 +32,7 @@ class MemoryAddFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentMemoryBinding.inflate(inflater)
+        _binding = FragmentMemoryBinding.inflate(inflater)
         return binding.root
     }
 
@@ -78,5 +79,10 @@ class MemoryAddFragment : Fragment() {
         }
 
 
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
